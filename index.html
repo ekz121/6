@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Chronicles - Blog Petualangan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Lora', serif;
+        }
+
+        body {
+            background: #f4f4f9;
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2c3e50, #4ca1af);
+            padding: 30px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            font-size: 2.8em;
+            color: #fff;
+            letter-spacing: 1.5px;
+        }
+
+        nav {
+            margin-top: 15px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #f1c40f;
+        }
+
+        .container {
+            display: flex;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .main-content {
+            flex: 3;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        .article-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .article-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .article-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .article-card h3 {
+            font-size: 1.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .article-card p {
+            font-size: 1em;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .article-detail {
+            display: none;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .article-detail.active {
+            display: block;
+        }
+
+        .article-detail h2 {
+            font-size: 2.2em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .article-detail img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .article-detail p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .navigation button {
+            padding: 12px 25px;
+            background: #4ca1af;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s ease;
+        }
+
+        .navigation button:hover {
+            background: #2c3e50;
+        }
+
+        .sidebar {
+            flex: 1;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar h3 {
+            font-size: 1.6em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 12px;
+        }
+
+        .sidebar ul li a {
+            color: #4ca1af;
+            text-decoration: none;
+            font-size: 1em;
+            transition: color 0.3s ease;
+        }
+
+        .sidebar ul li a:hover {
+            color: #f1c40f;
+        }
+
+        .ad-section {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .ad-section img {
+            width: 100%;
+            max-width: 200px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .ad-section img:hover {
+            transform: scale(1.05);
+        }
+
+        .ad-section p {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 50px;
+            background: #2c3e50;
+            color: #fff;
+            font-size: 0.9em;
+            border-radius: 8px;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                margin-top: 30px;
+            }
+
+            .article-card h3 {
+                font-size: 1.3em;
+            }
+
+            .article-detail h2 {
+                font-size: 1.8em;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .ad-section img {
+                max-width: 150px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .article-card img {
+                height: 150px;
+            }
+
+            .article-detail img {
+                max-height: 300px;
+            }
+
+            .navigation button {
+                padding: 10px 15px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Travel Chronicles</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Beranda</a></li>
+                <li><a href="about.html">Tentang</a></li>
+                <li><a href="contact.html">Kontak</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="articles-grid" id="articlesGrid"></div>
+            <div class="article-detail" id="articleDetail">
+                <h2 id="articleTitle"></h2>
+                <img id="articleImage" src="" alt="Article Image">
+                <p id="articleContent"></p>
+                <div class="navigation">
+                    <button onclick="showPreviousArticle()">Sebelumnya</button>
+                    <button onclick="backToHome()">Kembali ke Beranda</button>
+                    <button onclick="showNextArticle()">Berikutnya</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <h3>Artikel Terbaru</h3>
+            <ul id="recentArticles"></ul>
+            <div class="ad-section" onclick="window.location.href='https://tiket.com';">
+                <img src="img/1.png" alt="Iklan" onerror="this.src='https://via.placeholder.com/200x300?text=Iklan+Travel';">
+                <p>Jelajahi Dunia dengan Tur Kami!</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        © 2025 Travel Chronicles. Dibuat oleh [Nama Anda]. Email: travelchronicles@example.com
+    </footer>
+
+    <script>
+        const articles = [
+            {
+                id: 1,
+                title: "Menjelajahi Keindahan Bali",
+                thumbnail: "img/bali.jpg",
+                summary: "Pulau Bali menawarkan pesona alam dan budaya yang memukau. Temukan pengalaman tak terlupakan di sini.",
+                content: "Bali, dikenal sebagai Pulau Dewata, adalah destinasi yang menawarkan kombinasi sempurna antara pantai indah, budaya kaya, dan kuliner lezat. Dari pura ikonik seperti Tanah Lot hingga sawah hijau di Ubud, Bali memikat hati setiap pengunjung. Jangan lupa mencoba nasi campur Bali dan menikmati matahari terbenam di Pantai Kuta."
+            },
+            {
+                id: 2,
+                title: "Petualangan di Gunung Bromo",
+                thumbnail: "img/bromo.jpg",
+                summary: "Saksikan matahari terbit yang menakjubkan di Gunung Bromo. Petualangan epik menanti Anda!",
+                content: "Gunung Bromo di Jawa Timur adalah salah satu destinasi trekking terbaik di Indonesia. Pemandangan matahari terbit dari Penanjakan adalah pengalaman yang tak terlupakan, dengan latar belakang gunung berapi yang dramatis. Naik kuda melintasi lautan pasir dan jelajahi kawah Bromo untuk petualangan yang penuh adrenalin."
+            },
+            {
+                id: 3,
+                title: "Keajaiban Bawah Laut Raja Ampat",
+                thumbnail: "img/raja_ampat.jpg",
+                summary: "Raja Ampat adalah surga bagi penyelam dengan keanekaragaman hayati laut yang luar biasa.",
+                content: "Raja Ampat di Papua Barat adalah salah satu destinasi penyelaman terbaik di dunia. Dengan terumbu karang yang masih alami dan ribuan spesies ikan, tempat ini adalah surga bagi pecinta laut. Selain menyelam, Anda juga bisa menikmati pemandangan pulau-pulau karst dan laguna yang menakjubkan."
+            },
+            {
+                id: 4,
+                title: "Menemukan Ketenangan di Yogyakarta",
+                thumbnail: "img/jogja.jpg",
+                summary: "Yogyakarta adalah kota budaya dengan candi megah dan suasana yang hangat.",
+                content: "Yogyakarta adalah jantung budaya Jawa, rumah bagi Candi Borobudur dan Prambanan yang megah. Kota ini juga menawarkan pengalaman lokal seperti membuat batik, menikmati gudeg, dan berjalan-jalan di Malioboro. Suasana ramah dan sejarah yang kaya membuat Yogyakarta destinasi yang wajib dikunjungi."
+            }
+        ];
+
+        let currentArticleIndex = 0;
+
+        function displayArticles() {
+            const articlesGrid = document.getElementById('articlesGrid');
+            articlesGrid.innerHTML = '';
+
+            articles.slice().reverse().forEach((article, index) => {
+                const articleCard = document.createElement('div');
+                articleCard.classList.add('article-card');
+                articleCard.innerHTML = `
+                    <img src="${article.thumbnail || 'https://via.placeholder.com/300x200?text=No+Image'}" alt="${article.title}">
+                    <h3>${article.title}</h3>
+                    <p>${article.summary}</p>
+                `;
+                articleCard.addEventListener('click', () => showArticle(articles.length - 1 - index));
+                articlesGrid.appendChild(articleCard);
+            });
+        }
+
+        function displayRecentArticles() {
+            const recentArticles = document.getElementById('recentArticles');
+            recentArticles.innerHTML = '';
+
+            articles.slice().reverse().slice(0, 3).forEach((article, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `<a href="#" onclick="showArticle(${articles.length - 1 - index}); return false;">${article.title}</a>`;
+                recentArticles.appendChild(li);
+            });
+        }
+
+        function showArticle(index) {
+            currentArticleIndex = index;
+            const article = articles[index];
+
+            const articlesGrid = document.getElementById('articlesGrid');
+            const articleDetail = document.getElementById('articleDetail');
+
+            articlesGrid.style.display = 'none';
+            articleDetail.classList.add('active');
+
+            document.getElementById('articleTitle').textContent = article.title;
+            document.getElementById('articleImage').src = article.thumbnail || 'https://via.placeholder.com/300x200?text=No+Image';
+            document.getElementById('articleContent').textContent = article.content;
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function backToHome() {
+            const articlesGrid = document.getElementById('articlesGrid');
+            const articleDetail = document.getElementById('articleDetail');
+
+            articlesGrid.style.display = 'grid';
+            articleDetail.classList.remove('active');
+        }
+
+        function showPreviousArticle() {
+            if (currentArticleIndex > 0) {
+                showArticle(currentArticleIndex - 1);
+            }
+        }
+
+        function showNextArticle() {
+            if (currentArticleIndex < articles.length - 1) {
+                showArticle(currentArticleIndex + 1);
+            }
+        }
+
+        displayArticles();
+        displayRecentArticles();
+    </script>
+</body>
+</html>
